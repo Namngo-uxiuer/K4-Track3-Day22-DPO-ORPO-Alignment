@@ -214,6 +214,8 @@ def main() -> int:
         optional.append("NB5 GGUF (gguf/*.gguf) not done")
     if not (repo / "data" / "eval" / "benchmark_results.json").exists():
         optional.append("NB6 benchmark (data/eval/benchmark_results.json) not done")
+    beta_sweep = ((repo / "data" / "eval" / "beta_sweep_results.json").exists()
+                  and (repo / "submission" / "screenshots" / "bonus-beta-sweep.png").exists())
 
     # Submission artifacts (core)
     check_reflection_edited(repo / "submission" / "REFLECTION.md", problems)
@@ -225,6 +227,8 @@ def main() -> int:
         print("\nⓘ Optional (bonus) not done — fine for a core pass:")
         for line in optional:
             print(f"  - {line}")
+    if beta_sweep:
+        print("  ✓ β-sweep mini bonus present (results JSON + plot)")
 
     print()
     if not problems:

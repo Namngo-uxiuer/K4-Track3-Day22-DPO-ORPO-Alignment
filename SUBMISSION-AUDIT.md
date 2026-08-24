@@ -2,7 +2,7 @@
 
 **Student:** Ngô Văn Nam — **MSSV:** 2A202601340
 **Public GitHub:** https://github.com/Namngo-uxiuer/K4-Track3-Day22-DPO-ORPO-Alignment
-**Verified commit:** `pending final push`
+**Verified evidence commit:** `f22f9d3` (pushed to `origin/main`)
 
 ## Core gatekeeper
 

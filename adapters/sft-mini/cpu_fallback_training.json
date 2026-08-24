@@ -1,0 +1,42 @@
+{
+  "base_model": "Qwen/Qwen3.5-0.8B",
+  "source_adapter": "D:\\Downloads_D\\DAY21_TRACK3_2A202601340_NgoVanNam\\adapters\\correct",
+  "steps": 8,
+  "repeat_single_row": true,
+  "learning_rate": 2e-05,
+  "losses": [
+    {
+      "step": 1,
+      "loss": 0.27357614040374756
+    },
+    {
+      "step": 2,
+      "loss": 0.07100488990545273
+    },
+    {
+      "step": 3,
+      "loss": 0.012883204966783524
+    },
+    {
+      "step": 4,
+      "loss": 0.0049985540099442005
+    },
+    {
+      "step": 5,
+      "loss": 0.0027183981146663427
+    },
+    {
+      "step": 6,
+      "loss": 0.0017258623847737908
+    },
+    {
+      "step": 7,
+      "loss": 0.0011209228541702032
+    },
+    {
+      "step": 8,
+      "loss": 0.0006834191153757274
+    }
+  ],
+  "elapsed_seconds": 717.9376082420349
+}

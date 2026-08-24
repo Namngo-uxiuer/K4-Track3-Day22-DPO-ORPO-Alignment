@@ -38,3 +38,33 @@ hf_cache/
 .idea/
 .vscode/
 *.swp
+
+# Submission evidence (keep lightweight configs, metrics, data and screenshots
+# visible to GitHub; choose Option C if the adapter weights should stay local).
+!data/pref/
+!data/pref/*.parquet
+!data/pref/*.json
+!data/pref/*.md
+!data/eval/
+!data/eval/*.json
+!data/eval/*.jsonl
+!data/eval/*.txt
+!adapters/
+!adapters/sft-mini/
+!adapters/sft-mini/*.json
+!adapters/sft-mini/*.md
+!adapters/sft-mini/*.jinja
+!adapters/sft-mini/tokenizer.json
+!adapters/sft-mini/tokenizer_config.json
+!adapters/dpo/
+!adapters/dpo/*.json
+!adapters/dpo/*.md
+!adapters/dpo/*.jinja
+!adapters/dpo/tokenizer.json
+!adapters/dpo/tokenizer_config.json
+adapters/sft-mini/adapter_model.safetensors
+adapters/dpo/adapter_model.safetensors
+adapters/sft-mini/tokenizer.json
+adapters/dpo/tokenizer.json
+!submission/screenshots/
+!submission/screenshots/*.png

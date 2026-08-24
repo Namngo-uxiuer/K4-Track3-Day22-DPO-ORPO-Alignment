@@ -25,3 +25,7 @@ Drop the following PNG/JPG files into this folder before submitting. Filenames a
 - **For reward curves**: include both axes (steps + rewards) and a legend. Matplotlib's default works.
 - **For the side-by-side table**: if it's longer than 1 screen, OK to take 2 screenshots labeled `04a-...` and `04b-...`.
 - **API key handling**: if your judge cell shows the key in the screenshot — recrop! Never publish `sk-...` lines.
+
+## Local fallback evidence note
+
+This submission includes `06-data-provenance.png` as an additional core evidence shot: it shows three real pairs from the prepared 2,000-row UltraFeedback artifact. The optional `06-gguf-smoke.png` and `07-benchmark-comparison.png` are intentionally absent because the local runtime has no usable CUDA and no GGUF/benchmark result is claimed. See `SUBMISSION-AUDIT.md` and `submission/REFLECTION.md` for the exact scope.

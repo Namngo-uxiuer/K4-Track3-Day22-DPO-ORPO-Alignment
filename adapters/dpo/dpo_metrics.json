@@ -1,0 +1,65 @@
+{
+  "compute_tier": "CPU_FALLBACK",
+  "base_model": "Qwen/Qwen3.5-0.8B",
+  "beta": 0.1,
+  "lr": 5e-05,
+  "epochs": 1,
+  "steps": 6,
+  "final_train_loss": 0.00012935372069478035,
+  "end_chosen_reward": 0.2817348539829254,
+  "end_rejected_reward": -8.671160697937012,
+  "end_reward_gap": 8.952895164489746,
+  "history": [
+    {
+      "step": 1,
+      "loss": 0.6931471824645996,
+      "chosen_reward": 0.0,
+      "rejected_reward": 0.0,
+      "reward_gap": 0.0
+    },
+    {
+      "step": 2,
+      "loss": 0.2033359855413437,
+      "chosen_reward": -0.15063877403736115,
+      "rejected_reward": -1.6401443481445312,
+      "reward_gap": 1.4895055294036865
+    },
+    {
+      "step": 3,
+      "loss": 0.026807876303792,
+      "chosen_reward": 0.001044464181177318,
+      "rejected_reward": -3.6045806407928467,
+      "reward_gap": 3.6056251525878906
+    },
+    {
+      "step": 4,
+      "loss": 0.007730286102741957,
+      "chosen_reward": -0.8421239852905273,
+      "rejected_reward": -5.700865268707275,
+      "reward_gap": 4.858741283416748
+    },
+    {
+      "step": 5,
+      "loss": 0.004667470697313547,
+      "chosen_reward": -1.4189616441726685,
+      "rejected_reward": -6.783764839172363,
+      "reward_gap": 5.364803314208984
+    },
+    {
+      "step": 6,
+      "loss": 0.00012935372069478035,
+      "chosen_reward": 0.2817348539829254,
+      "rejected_reward": -8.671160697937012,
+      "reward_gap": 8.952895164489746
+    }
+  ],
+  "elapsed_seconds": 234.36840796470642,
+  "note": "Real CPU fallback; not the course T4 Qwen2.5-3B run.",
+  "preference_dataset": "argilla/ultrafeedback-binarized-preferences-cleaned",
+  "prepared_train_rows": 2000,
+  "prepared_eval_rows": 200,
+  "cpu_training_sample_rows": 32,
+  "actual_cpu_training_source": "local Vietnamese classification fallback pairs (data/pref/cpu_fallback_train.parquet)",
+  "data_provenance_note": "The exact UltraFeedback artifact is prepared and validated; the included CPU adapter was trained on the smaller local fallback sample because the available runtime is CPU-only.",
+  "course_exact_run": false
+}

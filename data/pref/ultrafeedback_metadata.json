@@ -1,0 +1,17 @@
+{
+  "dataset": "argilla/ultrafeedback-binarized-preferences-cleaned",
+  "source_arrow": "C:\\Users\\Acer\\.cache\\huggingface\\datasets\\argilla___ultrafeedback-binarized-preferences-cleaned\\default\\0.0.0\\770076f077c4c5e298498fa32f804857f46d5134\\ultrafeedback-binarized-preferences-cleaned-train.arrow",
+  "source_rows": 60917,
+  "train_rows": 2000,
+  "eval_rows": 200,
+  "columns": [
+    "prompt",
+    "chosen",
+    "rejected"
+  ],
+  "validation": {
+    "chosen_rejected_distinct": true,
+    "nonempty": true
+  },
+  "note": "Exact lab data-prep artifact. The local CPU fallback training run uses a small sampled subset because the machine cannot run the T4 recipe."
+}

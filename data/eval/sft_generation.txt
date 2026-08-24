@@ -1,0 +1,1 @@
+{"intent": "trung_binh", "urgency": "trung_binh", "product": "trung bình"}

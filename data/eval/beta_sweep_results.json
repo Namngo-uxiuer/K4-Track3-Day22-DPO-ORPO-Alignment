@@ -1,0 +1,108 @@
+{
+  "betas": [
+    0.05,
+    0.1,
+    0.5
+  ],
+  "steps_per_beta": 3,
+  "results": [
+    {
+      "beta": 0.05,
+      "steps": 3,
+      "history": [
+        {
+          "step": 1,
+          "loss": 0.6931471824645996,
+          "chosen_reward": 0.0,
+          "rejected_reward": 0.0,
+          "reward_gap": 0.0
+        },
+        {
+          "step": 2,
+          "loss": 0.38667553663253784,
+          "chosen_reward": -0.07566366344690323,
+          "rejected_reward": -0.8262729644775391,
+          "reward_gap": 0.750609278678894
+        },
+        {
+          "step": 3,
+          "loss": 0.14587877690792084,
+          "chosen_reward": 0.009812927804887295,
+          "rejected_reward": -1.8413406610488892,
+          "reward_gap": 1.8511536121368408
+        }
+      ],
+      "initial_gap": 0.0,
+      "final_gap": 1.8511536121368408,
+      "training_pair_win_rate": 1.0,
+      "runtime": "CPU_FALLBACK",
+      "note": "Mini sweep on the same local fallback preference sample; not a T4-scale conclusion."
+    },
+    {
+      "beta": 0.1,
+      "steps": 3,
+      "history": [
+        {
+          "step": 1,
+          "loss": 0.6931471824645996,
+          "chosen_reward": 0.0,
+          "rejected_reward": 0.0,
+          "reward_gap": 0.0
+        },
+        {
+          "step": 2,
+          "loss": 0.20095215737819672,
+          "chosen_reward": -0.16331462562084198,
+          "rejected_reward": -1.6658447980880737,
+          "reward_gap": 1.5025302171707153
+        },
+        {
+          "step": 3,
+          "loss": 0.024786246940493584,
+          "chosen_reward": 0.007202529814094305,
+          "rejected_reward": -3.677845001220703,
+          "reward_gap": 3.6850476264953613
+        }
+      ],
+      "initial_gap": 0.0,
+      "final_gap": 3.6850476264953613,
+      "training_pair_win_rate": 1.0,
+      "runtime": "CPU_FALLBACK",
+      "note": "Mini sweep on the same local fallback preference sample; not a T4-scale conclusion."
+    },
+    {
+      "beta": 0.5,
+      "steps": 3,
+      "history": [
+        {
+          "step": 1,
+          "loss": 0.6931471824645996,
+          "chosen_reward": 0.0,
+          "rejected_reward": 0.0,
+          "reward_gap": 0.0
+        },
+        {
+          "step": 2,
+          "loss": 0.0006388458423316479,
+          "chosen_reward": -0.7825326919555664,
+          "rejected_reward": -8.1380615234375,
+          "reward_gap": 7.355528831481934
+        },
+        {
+          "step": 3,
+          "loss": 7.617488506639347e-08,
+          "chosen_reward": -0.8029308319091797,
+          "rejected_reward": -17.193164825439453,
+          "reward_gap": 16.390233993530273
+        }
+      ],
+      "initial_gap": 0.0,
+      "final_gap": 16.390233993530273,
+      "training_pair_win_rate": 1.0,
+      "runtime": "CPU_FALLBACK",
+      "note": "Mini sweep on the same local fallback preference sample; not a T4-scale conclusion."
+    }
+  ],
+  "student": "Ngô Văn Nam",
+  "mssv": "2A202601340"
+}

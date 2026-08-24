@@ -1,3 +1,15 @@
+---
+language:
+  - vi
+library_name: peft
+base_model: Qwen/Qwen3.5-0.8B
+tags:
+  - dpo
+  - lora
+  - vietnamese
+  - alignment
+---
+
 # Lab 22 DPO adapter — Ngô Văn Nam
 
 - **MSSV:** 2A202601340

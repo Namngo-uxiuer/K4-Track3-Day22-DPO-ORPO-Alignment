@@ -2,7 +2,7 @@
 
 Drop the following PNG/JPG files into this folder before submitting. Filenames are *suggested*, not required — the grader reads `REFLECTION.md` to map screenshots to evidence.
 
-## Minimum (8 shots)
+## Minimum (11 shots)
 
 1. **`01-setup-gpu.png`** — terminal output (or Colab cell output) showing `nvidia-smi` or `torch.cuda.get_device_name()` with VRAM. Establishes which tier you ran.
 2. **`02-sft-loss.png`** — Notebook 01 final loss curve (matplotlib output) showing monotonic decrease over 1 epoch on the SFT-mini build.
@@ -12,12 +12,15 @@ Drop the following PNG/JPG files into this folder before submitting. Filenames a
 6. **`06-gguf-smoke.png`** — Notebook 05 final cell: llama-cpp-python loading the merged GGUF and producing a coherent VN response to a smoke prompt. Must show the `Q4_K_M.gguf` filename in the load line + the actual generated tokens.
 7. **`07-benchmark-comparison.png`** — Notebook 06 4-bar chart: SFT-only vs SFT+DPO scores across IFEval / GSM8K / MMLU / AlpacaEval-lite. Bars labeled with absolute scores; deltas annotated above each pair. This is THE quantitative summary of whether DPO worked — it should be the most-looked-at image in your submission.
 8. **`08-gguf-q5-smoke.png`** — Additional NB5 evidence showing the Q5_K_M release also loads and generates Vietnamese text.
+9. **`09-openai-cross-judge.png`** — Real `gpt-4o-mini` verdict table for all 8 comparison prompts.
+10. **`10-official-mmlu-smoke.png`** — Official lm-eval/Hugging Face MMLU subject smoke with score and scope label.
+11. **`11-official-benchmark-smokes.png`** — Official lm-eval GSM8K + IFEval smoke scores with scope label.
 
 ## Optional — for additional bonus rigor add-ons (mentioned in `rubric.md`)
 
-9. **`bonus-beta-sweep.png`** — chart of reward gap vs β over {0.05, 0.1, 0.5}. (+6 add-on; present in this submission)
-10. **`bonus-vn-data-sample.png`** — if you completed the BONUS-CHALLENGE provocation #1 (VN preference set), screenshot of 3 native-VN preference pairs you generated.
-11. **`bonus-creative-challenge.png`** — your choice. Whatever the most interesting visual from your `bonus/` folder is — collapse-curve from self-rewarding, win-rate matrix from DPO/ORPO/SimPO trinity, etc.
+12. **`bonus-beta-sweep.png`** — chart of reward gap vs β over {0.05, 0.1, 0.5}. (+6 add-on; present in this submission)
+12. **`bonus-vn-data-sample.png`** — if you completed the BONUS-CHALLENGE provocation #1 (VN preference set), screenshot of 3 native-VN preference pairs you generated.
+13. **`bonus-creative-challenge.png`** — your choice. Whatever the most interesting visual from your `bonus/` folder is — collapse-curve from self-rewarding, win-rate matrix from DPO/ORPO/SimPO trinity, etc.
 
 ## Tips
 
@@ -29,4 +32,4 @@ Drop the following PNG/JPG files into this folder before submitting. Filenames a
 
 ## Local fallback evidence note
 
-This submission includes `06-data-provenance.png` as an additional core evidence shot, plus the executed `06-gguf-smoke.png`, `07-benchmark-comparison.png`, `08-gguf-q5-smoke.png`, and `bonus-beta-sweep.png`. GGUF and benchmark evidence are real `CPU_FALLBACK`/sampled runs; they are not presented as the exact T4 recipe or as official full-suite scores. See `SUBMISSION-AUDIT.md`, `data/eval/gguf_smoke.json`, `data/eval/gguf_q5_smoke.json`, `data/eval/benchmark_results.json`, and `submission/REFLECTION.md` for the exact scope.
+This submission includes `06-data-provenance.png` as an additional core evidence shot, plus the executed `06-gguf-smoke.png`, `07-benchmark-comparison.png`, `08-gguf-q5-smoke.png`, `09-openai-cross-judge.png`, `10-official-mmlu-smoke.png`, `11-official-benchmark-smokes.png`, and `bonus-beta-sweep.png`. GGUF and benchmark evidence are real `CPU_FALLBACK`/sampled runs; official benchmark images are smoke runs, not full-suite scores. See `SUBMISSION-AUDIT.md`, `data/eval/cross_judge_openai.json`, `data/eval/official_mmlu_smoke.json`, `data/eval/official_benchmark_smokes.json`, and `submission/REFLECTION.md` for the exact scope.

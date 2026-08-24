@@ -2,7 +2,7 @@
 
 **Student:** Ngô Văn Nam — **MSSV:** 2A202601340
 **Public GitHub:** https://github.com/Namngo-uxiuer/K4-Track3-Day22-DPO-ORPO-Alignment
-**Verified evidence commit:** `f22f9d3` (pushed to `origin/main`)
+**Verified commit:** `pending final push`
 
 ## Core gatekeeper
 
@@ -25,8 +25,11 @@
 
 - β-sweep mini: **PASS (CPU fallback)**; see `data/eval/beta_sweep_results.json` and `submission/screenshots/bonus-beta-sweep.png`.
 - NB5 GGUF Q4_K_M + Q5_K_M + llama.cpp smoke: **PASS (CPU fallback; llama.cpp b10605 CPU CLI; Q4 smoke + Q5 smoke PASS)**; see `data/eval/gguf_smoke.json`, `data/eval/gguf_q5_smoke.json`, and `submission/screenshots/06-gguf-smoke.png`/`08-gguf-q5-smoke.png`.
-- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **PASS (sampled CPU fallback; official full suite blocked)**; see `data/eval/benchmark_results.json` and `submission/screenshots/07-benchmark-comparison.png`.
-- External API judge/cross-judge: **blocked — no OPENAI_API_KEY or ANTHROPIC_API_KEY**; manual rubric is included and the credential audit is in `data/eval/external_bonus_status.json`.
+- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **PASS (sampled CPU fallback + official MMLU subject/GSM8K/IFEval smokes; full suites CPU-time limited)**; see `data/eval/benchmark_results.json` and `submission/screenshots/07-benchmark-comparison.png`.
+- Official benchmark smoke evidence: **PASS**; see `data/eval/official_benchmark_smokes.json` and `submission/screenshots/10-official-mmlu-smoke.png`/`11-official-benchmark-smokes.png`.
+- External API judge/cross-judge: **PASS (gpt-4o-mini; 3 DPO wins / 5 SFT wins / 0 ties)**; see `data/eval/cross_judge_openai.json` and `submission/screenshots/09-openai-cross-judge.png`.
+- Hugging Face Hub push: **PASS (https://huggingface.co/Namdzfsfds/lab22-dpo-vn)**; see `data/eval/hf_push_status.json` and `submission/HF_MODEL_CARD.md`.
+- W&B public run: **blocked — no WANDB_API_KEY**; no fabricated public URL.
 - Public GGUF binary upload: **blocked — GitHub LFS permission for this public fork**; local Q4/Q5 files, hashes, and reproducible scripts are retained.
 
 ## Important scope note

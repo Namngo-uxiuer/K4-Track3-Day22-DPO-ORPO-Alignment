@@ -282,7 +282,7 @@ def main() -> int:
 
     # Submission artifacts (core)
     check_reflection_edited(repo / "submission" / "REFLECTION.md", problems)
-    n_shots = check_screenshots(repo / "submission" / "screenshots", min_count=7, problems=problems)
+    n_shots = check_screenshots(repo / "submission" / "screenshots", min_count=10, problems=problems)
     if n_shots:
         print(f"  ✓ submission/screenshots/ has {n_shots} image(s)")
     check_reflection_sections(repo / "submission" / "REFLECTION.md", problems)
@@ -293,6 +293,16 @@ def main() -> int:
             print(f"  - {line}")
     if beta_sweep:
         print("  ✓ β-sweep mini bonus present (results JSON + plot)")
+    for label, path in [
+        ("OpenAI cross-judge", repo / "data" / "eval" / "cross_judge_openai.json"),
+        ("Hugging Face push status", repo / "data" / "eval" / "hf_push_status.json"),
+        ("Official MMLU smoke", repo / "data" / "eval" / "official_mmlu_smoke.json"),
+        ("Official GSM8K + IFEval smokes", repo / "data" / "eval" / "official_benchmark_smokes.json"),
+    ]:
+        if path.exists():
+            print(f"  ✓ {label} evidence present")
+        else:
+            optional.append(f"{label} evidence missing")
 
     print()
     if not problems:

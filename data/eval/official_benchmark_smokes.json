@@ -1,0 +1,38 @@
+{
+  "status": "PASS_OFFICIAL_SMOKES",
+  "suite": "lm-eval-harness",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "scope": "official dataset and harness smoke runs with limit=3 on CPU; not full-suite scores",
+  "runs": {
+    "GSM8K": {
+      "status": "PASS_OFFICIAL_SMOKE",
+      "task": "gsm8k",
+      "n": 3,
+      "metrics": {
+        "strict_match": 0.6666666666666666,
+        "strict_match_stderr": 0.33333333333333337,
+        "flexible_extract": 0.6666666666666666,
+        "flexible_extract_stderr": 0.33333333333333337
+      },
+      "limit": 3,
+      "generation_max_tokens": null,
+      "source_result": "data\\eval\\lm_eval_gsm8k_official_smoke\\C__Users__Acer__.cache__huggingface__hub__models--Qwen--Qwen3.5-0.8B__snapshots__2fc06364715b967f1860aea9cf38778875588b17\\results_2026-08-24T21-02-23.169756.json"
+    },
+    "IFEval": {
+      "status": "PASS_OFFICIAL_SMOKE",
+      "task": "ifeval",
+      "n": 3,
+      "metrics": {
+        "prompt_level_strict_acc": 0.3333333333333333,
+        "prompt_level_strict_acc_stderr": 0.33333333333333337,
+        "prompt_level_loose_acc": 0.3333333333333333,
+        "prompt_level_loose_acc_stderr": 0.33333333333333337,
+        "inst_level_strict_acc": 0.2,
+        "inst_level_loose_acc": 0.4
+      },
+      "limit": 3,
+      "generation_max_tokens": 64,
+      "source_result": "data\\eval\\lm_eval_ifeval_official_smoke\\C__Users__Acer__.cache__huggingface__hub__models--Qwen--Qwen3.5-0.8B__snapshots__2fc06364715b967f1860aea9cf38778875588b17\\results_2026-08-24T21-12-53.489540.json"
+    }
+  }
+}

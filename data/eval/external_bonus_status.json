@@ -1,12 +1,15 @@
 {
   "checked_at": "2026-08-24",
   "hf_hub_push": {
-    "status": "BLOCKED_NO_HF_TOKEN",
-    "detail": "No Hugging Face token is available in the local environment; no push was attempted with fabricated credentials."
+    "status": "PASS",
+    "repo": "https://huggingface.co/Namdzfsfds/lab22-dpo-vn",
+    "detail": "DPO adapter and model card were uploaded with the local HF token; the token is not stored in this artifact."
   },
   "cross_judge": {
-    "status": "BLOCKED_NO_API_KEY",
-    "detail": "Neither OPENAI_API_KEY nor ANTHROPIC_API_KEY is available; the eight-prompt manual rubric remains the auditable judge."
+    "status": "PASS",
+    "provider": "OpenAI",
+    "model": "gpt-4o-mini",
+    "detail": "Eight prompt pairs were judged through the real API; full verdicts are in data/eval/cross_judge_openai.json."
   },
   "wandb_public_run": {
     "status": "BLOCKED_NO_WANDB_API_KEY",
@@ -17,13 +20,18 @@
     "detail": "GitHub rejected new LFS objects for this public fork. Q4_K_M and Q5_K_M remain local with hashes and reproducible metadata; no broken pointer commit is kept on the public branch."
   },
   "mmlu_full_official": {
-    "status": "BLOCKED_DATASET_DOWNLOAD",
-    "detail": "The official lm-eval model path loaded successfully, but the cais/mmlu dataset download was blocked by the restricted network runtime."
+    "status": "PASS_OFFICIAL_SMOKE_FULL_GROUP_CPU_LIMITED",
+    "detail": "The official cais/mmlu dataset and lm-eval harness succeeded for mmlu_abstract_algebra (n=3); the full 57-subject group is CPU-time limited."
   },
   "manual_alternatives": {
     "beta_sweep": "PASS_CPU_FALLBACK",
     "gguf_release_q4_q5": "PASS_CPU_FALLBACK",
     "gguf_smoke_q4_q5": "PASS_CPU_FALLBACK",
     "sampled_benchmark": "PASS_CPU_FALLBACK"
+  },
+  "official_benchmark_smokes": {
+    "status": "PASS_OFFICIAL_SMOKES",
+    "detail": "Official lm-eval GSM8K and IFEval smoke runs completed with n=3 each on CPU; IFEval used max_gen_toks=64. These are smoke results, not full-suite scores.",
+    "artifact": "data/eval/official_benchmark_smokes.json"
   }
 }

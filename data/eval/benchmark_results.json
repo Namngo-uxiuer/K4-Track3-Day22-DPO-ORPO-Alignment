@@ -5,9 +5,13 @@
   "base_model": "Qwen/Qwen3.5-0.8B",
   "model_source": "C:\\Users\\Acer\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.5-0.8B\\snapshots\\2fc06364715b967f1860aea9cf38778875588b17",
   "official_harness_attempt": {
-    "status": "BLOCKED_DATASET_DOWNLOAD",
-    "command": "lm-eval run --model hf --tasks mmlu --limit 1 --device cpu",
-    "reason": "Hugging Face dataset cais/mmlu blocked by restricted socket/network runtime after the model loaded successfully."
+    "status": "PASS_SMOKE_SUBJECT",
+    "task": "mmlu_abstract_algebra",
+    "n": 3,
+    "accuracy": 0.3333333333333333,
+    "stderr": 0.33333333333333337,
+    "command": "lm_eval run --model hf --tasks mmlu_abstract_algebra --limit 3 --batch_size 8 --device cpu",
+    "reason": "Hugging Face dataset and official harness path succeeded for one subject; full 57-subject evaluation is CPU-time limited."
   },
   "metrics": {
     "IFEval-lite": {
@@ -60,5 +64,37 @@
     }
   },
   "elapsed_seconds": 79.26,
-  "note": "These are real sampled fallback scores, not official full IFEval/GSM8K/MMLU scores and not T4-scale evidence."
+  "note": "These are real sampled fallback scores, not official full IFEval/GSM8K/MMLU scores and not T4-scale evidence.",
+  "official_harness_smokes": {
+    "GSM8K": {
+      "status": "PASS_OFFICIAL_SMOKE",
+      "task": "gsm8k",
+      "n": 3,
+      "metrics": {
+        "strict_match": 0.6666666666666666,
+        "strict_match_stderr": 0.33333333333333337,
+        "flexible_extract": 0.6666666666666666,
+        "flexible_extract_stderr": 0.33333333333333337
+      },
+      "limit": 3,
+      "generation_max_tokens": null,
+      "source_result": "data\\eval\\lm_eval_gsm8k_official_smoke\\C__Users__Acer__.cache__huggingface__hub__models--Qwen--Qwen3.5-0.8B__snapshots__2fc06364715b967f1860aea9cf38778875588b17\\results_2026-08-24T21-02-23.169756.json"
+    },
+    "IFEval": {
+      "status": "PASS_OFFICIAL_SMOKE",
+      "task": "ifeval",
+      "n": 3,
+      "metrics": {
+        "prompt_level_strict_acc": 0.3333333333333333,
+        "prompt_level_strict_acc_stderr": 0.33333333333333337,
+        "prompt_level_loose_acc": 0.3333333333333333,
+        "prompt_level_loose_acc_stderr": 0.33333333333333337,
+        "inst_level_strict_acc": 0.2,
+        "inst_level_loose_acc": 0.4
+      },
+      "limit": 3,
+      "generation_max_tokens": 64,
+      "source_result": "data\\eval\\lm_eval_ifeval_official_smoke\\C__Users__Acer__.cache__huggingface__hub__models--Qwen--Qwen3.5-0.8B__snapshots__2fc06364715b967f1860aea9cf38778875588b17\\results_2026-08-24T21-12-53.489540.json"
+    }
+  }
 }

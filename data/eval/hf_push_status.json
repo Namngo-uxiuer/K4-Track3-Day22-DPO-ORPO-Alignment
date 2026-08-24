@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "repo_id": "Namdzfsfds/lab22-dpo-vn",
+  "url": "https://huggingface.co/Namdzfsfds/lab22-dpo-vn",
+  "uploaded": [
+    "adapter/adapter_model.safetensors",
+    "adapter/adapter_config.json",
+    "adapter/tokenizer.json",
+    "README.md"
+  ],
+  "note": "Uploaded with a local HF token; token is not stored in this artifact."
+}

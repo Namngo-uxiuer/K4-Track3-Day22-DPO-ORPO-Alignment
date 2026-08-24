@@ -1,0 +1,12 @@
+{
+  "status": "PASS_OFFICIAL_SMOKE",
+  "suite": "lm-eval-harness",
+  "task": "mmlu_abstract_algebra",
+  "n": 3,
+  "accuracy": 0.3333333333333333,
+  "stderr": 0.33333333333333337,
+  "limit": 3,
+  "full_group_completed": false,
+  "reason_full_group_not_completed": "The full 57-subject MMLU group is not computationally practical on this CPU fallback; this is an official one-subject smoke, not a full-suite score.",
+  "source_result": "data\\eval\\lm_eval_mmlu_official_subject\\C__Users__Acer__.cache__huggingface__hub__models--Qwen--Qwen3.5-0.8B__snapshots__2fc06364715b967f1860aea9cf38778875588b17\\results_2026-08-24T20-56-04.971623.json"
+}

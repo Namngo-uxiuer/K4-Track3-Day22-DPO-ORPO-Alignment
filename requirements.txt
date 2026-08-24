@@ -27,6 +27,8 @@ llama-cpp-python>=0.3,<1.0
 # lm-eval-harness — field-standard scorer for IFEval, GSM8K, MMLU.
 # Extras: ifeval (langdetect), math (sympy for LaTeX matching).
 lm-eval[ifeval,math]>=0.4.5,<1.0
+langdetect>=1.0.9,<2.0                     # IFEval language heuristics
+immutabledict>=4.2,<5.0                   # IFEval instruction registry
 
 # ── Notebook ──────────────────────────────────────────────────
 jupyterlab>=4.3,<5.0

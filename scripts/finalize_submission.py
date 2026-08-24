@@ -48,17 +48,38 @@ def main() -> None:
     q5_smoke_data = json.loads(q5_smoke_path.read_text(encoding="utf-8")) if q5_smoke_path.exists() else None
     benchmark_path = REPO / "data" / "eval" / "benchmark_results.json"
     benchmark_data = json.loads(benchmark_path.read_text(encoding="utf-8")) if benchmark_path.exists() else None
+    official_smoke_path = REPO / "data" / "eval" / "official_benchmark_smokes.json"
+    official_smoke_data = json.loads(official_smoke_path.read_text(encoding="utf-8")) if official_smoke_path.exists() else None
     external_path = REPO / "data" / "eval" / "external_bonus_status.json"
     external_data = json.loads(external_path.read_text(encoding="utf-8")) if external_path.exists() else None
+    cross_path = REPO / "data" / "eval" / "cross_judge_openai.json"
+    cross_data = json.loads(cross_path.read_text(encoding="utf-8")) if cross_path.exists() else None
+    hf_path = REPO / "data" / "eval" / "hf_push_status.json"
+    hf_data = json.loads(hf_path.read_text(encoding="utf-8")) if hf_path.exists() else None
     if benchmark_data:
         benchmark_summary = "; ".join(
             f"{name}: SFT={metric['sft_only']:.2f}, SFT+DPO={metric['sft_dpo']:.2f} (n={metric['n']})"
             for name, metric in benchmark_data["metrics"].items()
         )
+        official = benchmark_data["official_harness_attempt"]
+        if official["status"] == "PASS_SMOKE_SUBJECT":
+            official_note = (
+                f"Official lm-eval smoke cũng PASS ở {official['task']} với n={official['n']}, "
+                f"accuracy={official['accuracy']:.4f}; full 57-subject group bị giới hạn bởi thời gian CPU."
+            )
+        else:
+            official_note = f"Official harness status: {official['status']}."
+        if official_smoke_data:
+            gsm_smoke = official_smoke_data["runs"]["GSM8K"]
+            ife_smoke = official_smoke_data["runs"]["IFEval"]
+            official_note += (
+                f" Official GSM8K smoke PASS n={gsm_smoke['n']} strict={gsm_smoke['metrics']['strict_match']:.4f};"
+                f" IFEval smoke PASS n={ife_smoke['n']} prompt-strict={ife_smoke['metrics']['prompt_level_strict_acc']:.4f}"
+                " (IFEval max_gen_toks=64)."
+            )
         benchmark_section = (
             f"NB6 sampled benchmark đã chạy thật trên CPU fallback: {benchmark_summary}. "
-            f"Đây không phải official full-suite score; lần thử lm-eval chính thức bị chặn ở bước tải dataset "
-            f"({benchmark_data['official_harness_attempt']['status']}). Ảnh và JSON có provenance đầy đủ."
+            f"{official_note} Ảnh và JSON có provenance đầy đủ."
         )
     else:
         benchmark_section = "NB6 benchmark chưa có execution artifact; cần chạy trên runtime phù hợp."
@@ -72,20 +93,43 @@ def main() -> None:
         )
     else:
         gguf_section = "NB5 GGUF + llama.cpp smoke chưa có execution artifact."
-    if external_data:
-        external_section = (
-            "HF Hub push, cross-judge API và W&B public run đã được kiểm tra nhưng bị khóa bởi credential ngoài: "
-            "không có HF token, OpenAI/Anthropic key hoặc W&B API key. GitHub LFS cũng từ chối upload object "
-            "cho public fork; Q4/Q5 vẫn giữ local với hash và manifest. Không tạo URL/điểm giả."
+    extra_lines = []
+    if hf_data:
+        extra_lines.append(f"HF Hub push: PASS tại {hf_data['url']}.")
+    else:
+        extra_lines.append("HF Hub push chưa có execution artifact.")
+    if cross_data:
+        extra_lines.append(
+            f"OpenAI cross-judge: PASS với {cross_data['model']}, {cross_data['n']} prompt; "
+            f"SFT-only thắng {cross_data['wins']['SFT_only']}, DPO thắng {cross_data['wins']['SFT_DPO']}, tie {cross_data['wins']['tie']}."
         )
     else:
-        external_section = "Các bonus dịch vụ ngoài chưa được kiểm tra."
+        extra_lines.append("OpenAI cross-judge chưa có execution artifact.")
+    extra_lines.append("W&B public run chưa thể tạo vì chưa có WANDB_API_KEY.")
+    extra_lines.append("GitHub LFS từ chối upload GGUF binary cho public fork; Q4/Q5 vẫn giữ local với hash và manifest.")
+    if official_smoke_data:
+        extra_lines.append("Official lm-eval GSM8K + IFEval smoke evidence đã lưu ở data/eval/official_benchmark_smokes.json; đây là smoke n=3, không phải full-suite.")
+    external_section = " ".join(extra_lines)
 
     gguf_audit = (
         f"PASS (CPU fallback; {gguf_data['runtime']}; Q4 smoke + Q5 {'smoke PASS' if q5_smoke_data else 'quantized'})"
         if gguf_data else "not run"
     )
-    benchmark_audit = "PASS (sampled CPU fallback; official full suite blocked)" if benchmark_data else "not run"
+    benchmark_audit = (
+        "PASS (sampled CPU fallback + official MMLU subject/GSM8K/IFEval smokes; full suites CPU-time limited)"
+        if benchmark_data else "not run"
+    )
+    cross_audit = (
+        f"PASS ({cross_data['model']}; {cross_data['wins']['SFT_DPO']} DPO wins / {cross_data['wins']['SFT_only']} SFT wins / {cross_data['wins']['tie']} ties)"
+        if cross_data else "not run"
+    )
+    hf_audit = f"PASS ({hf_data['url']})" if hf_data else "not run"
+    judge_section = (
+        f"OpenAI cross-judge (`{cross_data['model']}`) đã chấm thật 8 prompt: "
+        f"SFT+DPO thắng {cross_data['wins']['SFT_DPO']}, SFT-only thắng {cross_data['wins']['SFT_only']}, tie {cross_data['wins']['tie']}. "
+        "Kết quả API được lưu ở `data/eval/cross_judge_openai.json`; manual rubric vẫn giữ để đối chiếu."
+        if cross_data else "Đây là manual heuristic rubric, không phải API judge."
+    )
 
     dpo.update({
         "preference_dataset": "argilla/ultrafeedback-binarized-preferences-cleaned",
@@ -148,7 +192,7 @@ Biểu đồ `submission/screenshots/03-dpo-reward-curves.png` vẽ riêng chose
 | Safety | {safety.get('B', 0)} | {safety.get('A', 0)} | {safety.get('tie', 0)} |
 | **Tổng** | **{counts.get('B', 0)}** | **{counts.get('A', 0)}** | **{counts.get('tie', 0)}** |
 
-Đây là manual heuristic rubric, không phải API judge. Ảnh `05-manual-rubric.png` ghi lại tiêu chí và tổng hợp để reviewer kiểm tra được cách chấm.
+{judge_section} Ảnh `05-manual-rubric.png` ghi lại rubric thủ công để reviewer đối chiếu.
 
 ## §5 β Trade-off
 
@@ -198,7 +242,10 @@ Các số liệu sampled/fallback được gắn nhãn rõ ràng để reviewer 
 - β-sweep mini: **PASS (CPU fallback)**; see `data/eval/beta_sweep_results.json` and `submission/screenshots/bonus-beta-sweep.png`.
 - NB5 GGUF Q4_K_M + Q5_K_M + llama.cpp smoke: **{gguf_audit}**; see `data/eval/gguf_smoke.json`, `data/eval/gguf_q5_smoke.json`, and `submission/screenshots/06-gguf-smoke.png`/`08-gguf-q5-smoke.png`.
 - NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **{benchmark_audit}**; see `data/eval/benchmark_results.json` and `submission/screenshots/07-benchmark-comparison.png`.
-- External API judge/cross-judge: **blocked — no OPENAI_API_KEY or ANTHROPIC_API_KEY**; manual rubric is included and the credential audit is in `data/eval/external_bonus_status.json`.
+- Official benchmark smoke evidence: **{'PASS' if official_smoke_data else 'not run'}**; see `data/eval/official_benchmark_smokes.json` and `submission/screenshots/10-official-mmlu-smoke.png`/`11-official-benchmark-smokes.png`.
+- External API judge/cross-judge: **{cross_audit}**; see `data/eval/cross_judge_openai.json` and `submission/screenshots/09-openai-cross-judge.png`.
+- Hugging Face Hub push: **{hf_audit}**; see `data/eval/hf_push_status.json` and `submission/HF_MODEL_CARD.md`.
+- W&B public run: **blocked — no WANDB_API_KEY**; no fabricated public URL.
 - Public GGUF binary upload: **blocked — GitHub LFS permission for this public fork**; local Q4/Q5 files, hashes, and reproducible scripts are retained.
 
 ## Important scope note

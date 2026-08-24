@@ -1,9 +1,8 @@
 # Submission audit — 2026-08-24
 
 **Student:** Ngô Văn Nam — **MSSV:** 2A202601340
-
-**Public GitHub:** https://github.com/Namngo-uxiuer/K4-Track3-Day22-DPO-ORPO-Alignment  
-**Verified commit:** `dcb21f0`
+**Public GitHub:** https://github.com/Namngo-uxiuer/K4-Track3-Day22-DPO-ORPO-Alignment
+**Verified commit:** `pending final push`
 
 ## Core gatekeeper
 
@@ -25,9 +24,10 @@
 ## Optional / hardware-gated
 
 - β-sweep mini: **PASS (CPU fallback)**; see `data/eval/beta_sweep_results.json` and `submission/screenshots/bonus-beta-sweep.png`.
-- NB5 GGUF + llama.cpp smoke: **not run**; no fake GGUF or screenshot was created.
-- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **not run**; no fake benchmark scores were created.
-- External API judge/cross-judge: **not run**; manual rubric is included.
+- NB5 GGUF Q4_K_M + Q5_K_M + llama.cpp smoke: **PASS (CPU fallback; llama.cpp b10605 CPU CLI; Q4 smoke + Q5 smoke PASS)**; see `data/eval/gguf_smoke.json`, `data/eval/gguf_q5_smoke.json`, and `submission/screenshots/06-gguf-smoke.png`/`08-gguf-q5-smoke.png`.
+- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **PASS (sampled CPU fallback; official full suite blocked)**; see `data/eval/benchmark_results.json` and `submission/screenshots/07-benchmark-comparison.png`.
+- External API judge/cross-judge: **blocked — no OPENAI_API_KEY or ANTHROPIC_API_KEY**; manual rubric is included and the credential audit is in `data/eval/external_bonus_status.json`.
+- Public GGUF binary upload: **blocked — GitHub LFS permission for this public fork**; local Q4/Q5 files, hashes, and reproducible scripts are retained.
 
 ## Important scope note
 

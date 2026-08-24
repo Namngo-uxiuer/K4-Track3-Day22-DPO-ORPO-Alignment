@@ -1,0 +1,64 @@
+{
+  "status": "PASS_SAMPLED_FALLBACK",
+  "official_full_suite": false,
+  "compute_tier": "CPU_FALLBACK",
+  "base_model": "Qwen/Qwen3.5-0.8B",
+  "model_source": "C:\\Users\\Acer\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.5-0.8B\\snapshots\\2fc06364715b967f1860aea9cf38778875588b17",
+  "official_harness_attempt": {
+    "status": "BLOCKED_DATASET_DOWNLOAD",
+    "command": "lm-eval run --model hf --tasks mmlu --limit 1 --device cpu",
+    "reason": "Hugging Face dataset cais/mmlu blocked by restricted socket/network runtime after the model loaded successfully."
+  },
+  "metrics": {
+    "IFEval-lite": {
+      "sft_only": 0.0,
+      "sft_dpo": 0.0,
+      "n": 3,
+      "method": "programmatic_grader_on_local_cpu_fallback_outputs"
+    },
+    "GSM8K-lite": {
+      "sft_only": 0.6666666666666666,
+      "sft_dpo": 1.0,
+      "n": 3,
+      "method": "programmatic_grader_on_local_cpu_fallback_outputs"
+    },
+    "MMLU-lite": {
+      "sft_only": 0.6666666666666666,
+      "sft_dpo": 0.6666666666666666,
+      "n": 3,
+      "method": "programmatic_grader_on_local_cpu_fallback_outputs"
+    },
+    "AlpacaEval-lite": {
+      "sft_only": 0.5625,
+      "sft_dpo": 0.4375,
+      "n": 8,
+      "method": "manual_pairwise_rubric_from_NB4"
+    }
+  },
+  "outputs": {
+    "sft_only": {
+      "ifeval-1": "{\"intent\": \"trung_tinh\", \"urgency\": \"trung_binh\", \"product\": \"trung tâm kiểm tra\"}",
+      "ifeval-2": "{\"intent\": \"trung_binh\", \"urgency\": \"trung_binh\", \"product\": \"trung tâm dữ liệu\"}",
+      "ifeval-3": "{\"intent\": \"trung_tinh\", \"urgency\": \"trung_binh\"}",
+      "gsm8k-1": "3 * 4 = 12",
+      "gsm8k-2": "17",
+      "gsm8k-3": "60 * 2,5 = 150",
+      "mmlu-1": "A",
+      "mmlu-2": "C",
+      "mmlu-3": "C. 100"
+    },
+    "sft_dpo": {
+      "ifeval-1": "{\"intent\": \"trung_tinh\", \"sentiment\": \"trung_tinh\", \"urgency\": \"trung_binh\"}",
+      "ifeval-2": "{\"intent\": \"trung_tinh\", \"sentiment\": \"trung_tinh\", \"urgency\": \"trung_binh\"}",
+      "ifeval-3": "{\"intent\": \"review\", \"urgency\": \"trung_binh\"}",
+      "gsm8k-1": "3 * 4 = 12",
+      "gsm8k-2": "12 - 5 = 7",
+      "gsm8k-3": "60 * 2,5 = 150",
+      "mmlu-1": "A",
+      "mmlu-2": "C",
+      "mmlu-3": "C. 100"
+    }
+  },
+  "elapsed_seconds": 79.26,
+  "note": "These are real sampled fallback scores, not official full IFEval/GSM8K/MMLU scores and not T4-scale evidence."
+}

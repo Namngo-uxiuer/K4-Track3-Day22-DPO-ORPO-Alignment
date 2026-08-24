@@ -67,6 +67,51 @@ def check_reflection_edited(path: Path, problems: list[str]) -> bool:
     return True
 
 
+def check_executed_notebooks(repo: Path, problems: list[str]) -> None:
+    """Verify the submitted .ipynb files exist and preserve execution outputs."""
+    names = [
+        "01_sft_mini.ipynb", "02_preference_data.ipynb", "03_dpo_train.ipynb",
+        "04_compare_and_eval.ipynb", "05_merge_deploy_gguf.ipynb", "06_benchmark.ipynb",
+    ]
+    for name in names:
+        path = repo / "notebooks" / name
+        if not path.exists():
+            problems.append(f"MISSING  executed notebook: {path.relative_to(repo)}")
+            continue
+        try:
+            notebook = json.loads(path.read_text(encoding="utf-8"))
+            executed = [
+                cell for cell in notebook.get("cells", [])
+                if cell.get("cell_type") == "code"
+                and (cell.get("execution_count") is not None or cell.get("outputs"))
+            ]
+            if not executed:
+                problems.append(f"UNEXECUTED notebook: {path.relative_to(repo)} has no preserved output cells")
+            else:
+                print(f"  ✓ executed notebook {name} ({len(executed)} output-bearing code cells)")
+        except Exception as exc:
+            problems.append(f"CORRUPT  notebook {path.relative_to(repo)} — {exc}")
+
+
+def check_reflection_sections(path: Path, problems: list[str]) -> None:
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    for section in range(1, 7):
+        if f"§{section}" not in text:
+            problems.append(f"MISSING  submission/REFLECTION.md §{section}")
+    headings = list(re.finditer(r"^## §(\d+)", text, re.MULTILINE))
+    for section, minimum in [(3, 150), (6, 150)]:
+        match = next((item for item in headings if item.group(1) == str(section)), None)
+        if not match:
+            continue
+        following = [item for item in headings if item.start() > match.start()]
+        end = following[0].start() if following else len(text)
+        words = len(re.findall(r"\S+", text[match.start():end]))
+        if words < minimum:
+            problems.append(f"TOO SHORT submission/REFLECTION.md §{section}: {words} words, need {minimum}")
+        else:
+            print(f"  ✓ Reflection §{section} length {words} words")
+
+
 def check_dpo_metrics(repo: Path, problems: list[str]) -> bool:
     metrics_path = repo / "adapters" / "dpo" / "dpo_metrics.json"
     if not metrics_path.exists():
@@ -188,6 +233,7 @@ def main() -> int:
     for nb in ["01_sft_mini.py", "02_preference_data.py", "03_dpo_train.py",
                "04_compare_and_eval.py", "05_merge_deploy_gguf.py"]:
         check_file(repo / "notebooks" / nb, f"notebook {nb}", problems)
+    check_executed_notebooks(repo, problems)
 
     # Adapter outputs
     check_file(repo / "adapters" / "sft-mini" / "adapter_config.json",
@@ -208,20 +254,38 @@ def main() -> int:
     check_file(repo / "data" / "eval" / "judge_results.json",
                "judge results (NB4 output)", problems)
 
-    # OPTIONAL (bonus) — NB5 GGUF + NB6 benchmark: report, do NOT fail core
+    # NB5/NB6 and bonus artifacts: report each exact state.
     optional = []
-    if not list((repo / "gguf").glob("*.gguf")):
-        optional.append("NB5 GGUF (gguf/*.gguf) not done")
-    if not (repo / "data" / "eval" / "benchmark_results.json").exists():
+    gguf_files = list((repo / "gguf").glob("*.gguf"))
+    gguf_smoke = repo / "data" / "eval" / "gguf_smoke.json"
+    if not gguf_files:
+        optional.append("NB5 GGUF (local gguf/*.gguf) not done")
+    elif not gguf_smoke.exists():
+        optional.append("NB5 llama.cpp smoke metadata missing")
+    else:
+        print("  ✓ NB5 GGUF + llama.cpp smoke metadata present")
+    for quant in ["Q4_K_M", "Q5_K_M"]:
+        if not any(quant in path.name for path in gguf_files):
+            optional.append(f"NB5 {quant} quantization artifact missing")
+    benchmark = repo / "data" / "eval" / "benchmark_results.json"
+    if not benchmark.exists():
         optional.append("NB6 benchmark (data/eval/benchmark_results.json) not done")
+    else:
+        print("  ✓ NB6 sampled benchmark metadata present")
     beta_sweep = ((repo / "data" / "eval" / "beta_sweep_results.json").exists()
                   and (repo / "submission" / "screenshots" / "bonus-beta-sweep.png").exists())
+    external_status = repo / "data" / "eval" / "external_bonus_status.json"
+    if external_status.exists():
+        print("  ✓ external bonus credential/network audit present")
+    else:
+        optional.append("external bonus status audit missing")
 
     # Submission artifacts (core)
     check_reflection_edited(repo / "submission" / "REFLECTION.md", problems)
-    n_shots = check_screenshots(repo / "submission" / "screenshots", min_count=3, problems=problems)
+    n_shots = check_screenshots(repo / "submission" / "screenshots", min_count=7, problems=problems)
     if n_shots:
         print(f"  ✓ submission/screenshots/ has {n_shots} image(s)")
+    check_reflection_sections(repo / "submission" / "REFLECTION.md", problems)
 
     if optional:
         print("\nⓘ Optional (bonus) not done — fine for a core pass:")

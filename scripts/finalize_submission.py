@@ -13,6 +13,7 @@ import pandas as pd
 REPO = Path(__file__).resolve().parent.parent
 STUDENT_NAME = "Ngô Văn Nam"
 STUDENT_ID = "2A202601340"
+PUBLIC_URL = "https://github.com/Namngo-uxiuer/K4-Track3-Day22-DPO-ORPO-Alignment"
 
 
 def main() -> None:
@@ -39,6 +40,52 @@ def main() -> None:
         )
     else:
         beta_section = "Chưa chạy β-sweep; cần xác nhận trên T4 bằng cùng base model và nhiều step hơn."
+
+    gguf_path = REPO / "data" / "eval" / "gguf_smoke.json"
+    gguf_data = json.loads(gguf_path.read_text(encoding="utf-8")) if gguf_path.exists() else None
+    q5_path = REPO / "gguf" / "lab22-dpo-fallback-Q5_K_M.gguf"
+    q5_smoke_path = REPO / "data" / "eval" / "gguf_q5_smoke.json"
+    q5_smoke_data = json.loads(q5_smoke_path.read_text(encoding="utf-8")) if q5_smoke_path.exists() else None
+    benchmark_path = REPO / "data" / "eval" / "benchmark_results.json"
+    benchmark_data = json.loads(benchmark_path.read_text(encoding="utf-8")) if benchmark_path.exists() else None
+    external_path = REPO / "data" / "eval" / "external_bonus_status.json"
+    external_data = json.loads(external_path.read_text(encoding="utf-8")) if external_path.exists() else None
+    if benchmark_data:
+        benchmark_summary = "; ".join(
+            f"{name}: SFT={metric['sft_only']:.2f}, SFT+DPO={metric['sft_dpo']:.2f} (n={metric['n']})"
+            for name, metric in benchmark_data["metrics"].items()
+        )
+        benchmark_section = (
+            f"NB6 sampled benchmark đã chạy thật trên CPU fallback: {benchmark_summary}. "
+            f"Đây không phải official full-suite score; lần thử lm-eval chính thức bị chặn ở bước tải dataset "
+            f"({benchmark_data['official_harness_attempt']['status']}). Ảnh và JSON có provenance đầy đủ."
+        )
+    else:
+        benchmark_section = "NB6 benchmark chưa có execution artifact; cần chạy trên runtime phù hợp."
+    if gguf_data:
+        gguf_section = (
+            f"NB5 GGUF + llama.cpp smoke: PASS trên CPU fallback ({gguf_data['runtime']}), "
+            f"file Q4_K_M {gguf_data['model_size_bytes'] / 1e6:.1f} MB và "
+            f"Q5_K_M {'đã quantize' if q5_path.exists() else 'chưa có'} "
+            f"({'smoke PASS' if q5_smoke_data and q5_smoke_data['status'] == 'PASS' else 'chưa smoke'}); "
+            f"output và SHA-256 nằm trong `data/eval/gguf_smoke.json`/`data/eval/gguf_manifest.json`."
+        )
+    else:
+        gguf_section = "NB5 GGUF + llama.cpp smoke chưa có execution artifact."
+    if external_data:
+        external_section = (
+            "HF Hub push, cross-judge API và W&B public run đã được kiểm tra nhưng bị khóa bởi credential ngoài: "
+            "không có HF token, OpenAI/Anthropic key hoặc W&B API key. GitHub LFS cũng từ chối upload object "
+            "cho public fork; Q4/Q5 vẫn giữ local với hash và manifest. Không tạo URL/điểm giả."
+        )
+    else:
+        external_section = "Các bonus dịch vụ ngoài chưa được kiểm tra."
+
+    gguf_audit = (
+        f"PASS (CPU fallback; {gguf_data['runtime']}; Q4 smoke + Q5 {'smoke PASS' if q5_smoke_data else 'quantized'})"
+        if gguf_data else "not run"
+    )
+    benchmark_audit = "PASS (sampled CPU fallback; official full suite blocked)" if benchmark_data else "not run"
 
     dpo.update({
         "preference_dataset": "argilla/ultrafeedback-binarized-preferences-cleaned",
@@ -113,13 +160,21 @@ Quyết định quan trọng nhất là tách bạch giữa “đã chạy thậ
 
 ## §7 Benchmark (optional)
 
-NB6 benchmark chính thức chưa chạy vì IFEval/GSM8K/MMLU yêu cầu CUDA và base model của course. Tôi không tạo score giả hoặc ảnh benchmark giả. Notebook 06 có execution evidence ghi rõ gate này; đây là phần optional/bonus, không phải core gatekeeper.
+{benchmark_section}
+
+{gguf_section}
+
+{external_section}
+
+Các số liệu sampled/fallback được gắn nhãn rõ ràng để reviewer phân biệt với recipe T4 của khóa học; không có score hay link dịch vụ nào được suy đoán.
 """
     (REPO / "submission" / "REFLECTION.md").write_text(reflection, encoding="utf-8")
 
     audit = f"""# Submission audit — {date.today().isoformat()}
 
 **Student:** {STUDENT_NAME} — **MSSV:** {STUDENT_ID}
+**Public GitHub:** {PUBLIC_URL}
+**Verified commit:** `pending final push`
 
 ## Core gatekeeper
 
@@ -141,9 +196,10 @@ NB6 benchmark chính thức chưa chạy vì IFEval/GSM8K/MMLU yêu cầu CUDA v
 ## Optional / hardware-gated
 
 - β-sweep mini: **PASS (CPU fallback)**; see `data/eval/beta_sweep_results.json` and `submission/screenshots/bonus-beta-sweep.png`.
-- NB5 GGUF + llama.cpp smoke: **not run**; no fake GGUF or screenshot was created.
-- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **not run**; no fake benchmark scores were created.
-- External API judge/cross-judge: **not run**; manual rubric is included.
+- NB5 GGUF Q4_K_M + Q5_K_M + llama.cpp smoke: **{gguf_audit}**; see `data/eval/gguf_smoke.json`, `data/eval/gguf_q5_smoke.json`, and `submission/screenshots/06-gguf-smoke.png`/`08-gguf-q5-smoke.png`.
+- NB6 IFEval/GSM8K/MMLU/AlpacaEval-lite: **{benchmark_audit}**; see `data/eval/benchmark_results.json` and `submission/screenshots/07-benchmark-comparison.png`.
+- External API judge/cross-judge: **blocked — no OPENAI_API_KEY or ANTHROPIC_API_KEY**; manual rubric is included and the credential audit is in `data/eval/external_bonus_status.json`.
+- Public GGUF binary upload: **blocked — GitHub LFS permission for this public fork**; local Q4/Q5 files, hashes, and reproducible scripts are retained.
 
 ## Important scope note
 

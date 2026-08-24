@@ -60,4 +60,10 @@ Quyết định quan trọng nhất là tách bạch giữa “đã chạy thậ
 
 ## §7 Benchmark (optional)
 
-NB6 benchmark chính thức chưa chạy vì IFEval/GSM8K/MMLU yêu cầu CUDA và base model của course. Tôi không tạo score giả hoặc ảnh benchmark giả. Notebook 06 có execution evidence ghi rõ gate này; đây là phần optional/bonus, không phải core gatekeeper.
+NB6 sampled benchmark đã chạy thật trên CPU fallback: IFEval-lite: SFT=0.00, SFT+DPO=0.00 (n=3); GSM8K-lite: SFT=0.67, SFT+DPO=1.00 (n=3); MMLU-lite: SFT=0.67, SFT+DPO=0.67 (n=3); AlpacaEval-lite: SFT=0.56, SFT+DPO=0.44 (n=8). Đây không phải official full-suite score; lần thử lm-eval chính thức bị chặn ở bước tải dataset (BLOCKED_DATASET_DOWNLOAD). Ảnh và JSON có provenance đầy đủ.
+
+NB5 GGUF + llama.cpp smoke: PASS trên CPU fallback (llama.cpp b10605 CPU CLI), file Q4_K_M 529.3 MB và Q5_K_M đã quantize (smoke PASS); output và SHA-256 nằm trong `data/eval/gguf_smoke.json`/`data/eval/gguf_manifest.json`.
+
+HF Hub push, cross-judge API và W&B public run đã được kiểm tra nhưng bị khóa bởi credential ngoài: không có HF token, OpenAI/Anthropic key hoặc W&B API key. GitHub LFS cũng từ chối upload object cho public fork; Q4/Q5 vẫn giữ local với hash và manifest. Không tạo URL/điểm giả.
+
+Các số liệu sampled/fallback được gắn nhãn rõ ràng để reviewer phân biệt với recipe T4 của khóa học; không có score hay link dịch vụ nào được suy đoán.

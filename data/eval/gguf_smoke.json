@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "runtime": "llama.cpp b10605 CPU CLI",
+  "compute_tier": "CPU_FALLBACK",
+  "model": "lab22-dpo-fallback-Q4_K_M.gguf",
+  "model_size_bytes": 529296768,
+  "model_sha256": "1c3050266de0e46cbfd94269990bd79c3ec6fb2e05d6cd2e767d64cdad143d1b",
+  "mode": "llama-cli-single-turn",
+  "prompt": "Viết một câu trả lời tiếng Việt ngắn, lịch sự: giải thích vì sao cần kiểm thử mô hình trước khi triển khai.",
+  "output": "{\"intent\": \"trung_tinh\", \"sentences\": 1, \"urgency\": \"trung_binh\", \"tone\": \"trung_tinh\"}",
+  "elapsed_seconds": 4.24,
+  "note": "Real local smoke on the Q4_K_M fallback GGUF; not the exact Qwen2.5-3B T4 recipe."
+}

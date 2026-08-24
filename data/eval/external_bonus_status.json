@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-08-24",
+  "hf_hub_push": {
+    "status": "BLOCKED_NO_HF_TOKEN",
+    "detail": "No Hugging Face token is available in the local environment; no push was attempted with fabricated credentials."
+  },
+  "cross_judge": {
+    "status": "BLOCKED_NO_API_KEY",
+    "detail": "Neither OPENAI_API_KEY nor ANTHROPIC_API_KEY is available; the eight-prompt manual rubric remains the auditable judge."
+  },
+  "wandb_public_run": {
+    "status": "BLOCKED_NO_WANDB_API_KEY",
+    "detail": "No W&B API key is available, so no public run URL can be created honestly."
+  },
+  "gguf_public_repo_upload": {
+    "status": "BLOCKED_GITHUB_LFS_PERMISSION",
+    "detail": "GitHub rejected new LFS objects for this public fork. Q4_K_M and Q5_K_M remain local with hashes and reproducible metadata; no broken pointer commit is kept on the public branch."
+  },
+  "mmlu_full_official": {
+    "status": "BLOCKED_DATASET_DOWNLOAD",
+    "detail": "The official lm-eval model path loaded successfully, but the cais/mmlu dataset download was blocked by the restricted network runtime."
+  },
+  "manual_alternatives": {
+    "beta_sweep": "PASS_CPU_FALLBACK",
+    "gguf_release_q4_q5": "PASS_CPU_FALLBACK",
+    "gguf_smoke_q4_q5": "PASS_CPU_FALLBACK",
+    "sampled_benchmark": "PASS_CPU_FALLBACK"
+  }
+}

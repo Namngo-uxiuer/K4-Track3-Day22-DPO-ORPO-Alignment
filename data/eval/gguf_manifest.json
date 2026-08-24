@@ -1,0 +1,26 @@
+{
+  "compute_tier": "CPU_FALLBACK",
+  "base_model": "Qwen/Qwen3.5-0.8B",
+  "files": [
+    {
+      "name": "lab22-dpo-fallback-F16.gguf",
+      "size_bytes": 1516744064,
+      "quantization": "F16"
+    },
+    {
+      "name": "lab22-dpo-fallback-Q4_K_M.gguf",
+      "size_bytes": 529296768,
+      "quantization": "Q4_K_M",
+      "sha256": "1c3050266de0e46cbfd94269990bd79c3ec6fb2e05d6cd2e767d64cdad143d1b",
+      "smoke_status": "PASS"
+    },
+    {
+      "name": "lab22-dpo-fallback-Q5_K_M.gguf",
+      "size_bytes": 577998208,
+      "quantization": "Q5_K_M",
+      "sha256": "afa0658e4a4c3d0ed14d7dcb81a98ead3795e31672517c44d0b8c52f54a12626",
+      "quantized_from": "lab22-dpo-fallback-F16.gguf"
+    }
+  ],
+  "note": "Binary files remain local because each exceeds GitHub's normal 100 MB file limit; conversion scripts and auditable metadata are committed."
+}

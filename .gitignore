@@ -6,6 +6,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.matplotlib-cache/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -68,3 +69,5 @@ adapters/sft-mini/tokenizer.json
 adapters/dpo/tokenizer.json
 !submission/screenshots/
 !submission/screenshots/*.png
+!gguf/
+!gguf/README.md
